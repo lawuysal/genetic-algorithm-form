@@ -60,7 +60,10 @@ public class GeneticAlgorithm
     public static List<Chromosome> Crossover(List<Chromosome> parents, double crossoverProbability)
     {
         List<Chromosome> offspring = new List<Chromosome>();
-        for (int i = 0; i < parents.Count; i += 2)
+        int lastParentIndex = parents.Count - 1; // Index of the last parent
+
+        // Adjust loop iteration to handle odd population sizes
+        for (int i = 0; i < lastParentIndex; i += 2)
         {
             if (random.NextDouble() < crossoverProbability)
             {
@@ -90,8 +93,16 @@ public class GeneticAlgorithm
                 offspring.Add(parents[i + 1]);
             }
         }
+
+        // Handle the last parent if the population size is odd
+        if (parents.Count % 2 != 0)
+        {
+            offspring.Add(parents[lastParentIndex]);
+        }
+
         return offspring;
     }
+
 
     public static void Mutation(List<Chromosome> population, double mutationProbability, double minX, double maxX)
     {
@@ -104,4 +115,13 @@ public class GeneticAlgorithm
             }
         }
     }
+
+    public static List<Chromosome> ApplyElitism(List<Chromosome> population, int eliteCount)
+    {
+        population.Sort((x, y) => x.Fitness.CompareTo(y.Fitness));
+        List<Chromosome> elites = population.GetRange(0, eliteCount);
+
+        return elites;
+    }
+
 }

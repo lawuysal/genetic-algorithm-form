@@ -23,6 +23,7 @@ namespace genetic_algorithm_form
             int maxGenerations = Convert.ToInt32(generationNumeric.Value);
             double crossoverProbability = Convert.ToDouble(crossNumeric.Value);
             double mutationProbability = Convert.ToDouble(mutationNumeric.Value);
+            int eliteCount = Convert.ToInt32(elitisimNumeric.Value);
 
             double minX = -4.5;
             double maxX = 4.5;
@@ -33,10 +34,11 @@ namespace genetic_algorithm_form
             {
                 // Algoritma
                 GeneticAlgorithm.CalculateFitness(population);
+                List<Chromosome> elites = GeneticAlgorithm.ApplyElitism(population, eliteCount);
                 List<Chromosome> parents = GeneticAlgorithm.Selection(population);
                 List<Chromosome> offspring = GeneticAlgorithm.Crossover(parents, crossoverProbability);
                 GeneticAlgorithm.Mutation(offspring, mutationProbability, minX, maxX);
-                population = offspring;
+                population = elites.Concat(offspring).ToList();
 
 
                 // Grafik
@@ -60,8 +62,14 @@ namespace genetic_algorithm_form
                     formsPlot1.Refresh();
 
             }
-            MessageBox.Show("Best solution found: " + best.Fitness + "\nX: " + best.X + "\nY: " + best.Y);
-            MessageBox.Show("Fitness: " + GeneticAlgorithm.EvaluateFitness(best.X, best.Y));
+            //MessageBox.Show("Best solution found: " + best.Fitness + "\nX: " + best.X + "\nY: " + best.Y);
+            //MessageBox.Show("Fitness: " + GeneticAlgorithm.EvaluateFitness(best.X, best.Y));
+            answerBox.Items.Add("Best solution found: " + best.Fitness);
+            answerBox.Items.Add("X: " + best.X);
+            answerBox.Items.Add("Y: " + best.Y);
+            answerBox.Items.Add(" ");
+            answerBox.Items.Add(" ");
+
 
         }
 
@@ -76,10 +84,28 @@ namespace genetic_algorithm_form
             formsPlot1.Refresh();
             populationNumeric.Value = 50;
             generationNumeric.Value = 50;
+            elitisimNumeric.Value = 1;
             crossNumeric.Value = 0.8M;
             mutationNumeric.Value = 0.05M;
             graphTypeCombo.Text = "Scatter";
             graphOptimizeCombo.Text = "10";
+            answerBox.Items.Clear();
+        }
+
+        private void resetGraphButton_Click(object sender, EventArgs e)
+        {
+            formsPlot1.Plot.Clear();
+            formsPlot1.Refresh();
+        }
+
+        private void resetAnswerButton_Click(object sender, EventArgs e)
+        {
+            answerBox.Items.Clear();
+        }
+
+        private void populationNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            elitisimNumeric.Maximum = populationNumeric.Value;
         }
     }
 }
