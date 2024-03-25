@@ -35,13 +35,11 @@ public class GeneticAlgorithm
 
     public static List<Chromosome> Selection(List<Chromosome> population)
     {
-        // Tournament size (number of individuals competing in each tournament)
         int tournamentSize = 5;
         List<Chromosome> selectedParents = new List<Chromosome>();
 
         for (int i = 0; i < population.Count; i++)
         {
-            // Randomly select individuals for the tournament
             List<Chromosome> tournamentParticipants = new List<Chromosome>();
             for (int j = 0; j < tournamentSize; j++)
             {
@@ -49,7 +47,6 @@ public class GeneticAlgorithm
                 tournamentParticipants.Add(population[randomIndex]);
             }
 
-            // Select the best individual from the tournament
             Chromosome winner = tournamentParticipants.OrderBy(c => c.Fitness).First();
             selectedParents.Add(winner);
         }
@@ -60,14 +57,12 @@ public class GeneticAlgorithm
     public static List<Chromosome> Crossover(List<Chromosome> parents, double crossoverProbability)
     {
         List<Chromosome> offspring = new List<Chromosome>();
-        int lastParentIndex = parents.Count - 1; // Index of the last parent
+        int lastParentIndex = parents.Count - 1;
 
-        // Adjust loop iteration to handle odd population sizes
         for (int i = 0; i < lastParentIndex; i += 2)
         {
             if (random.NextDouble() < crossoverProbability)
             {
-                // Perform crossover (blend crossover)
                 double alpha = random.NextDouble();
 
                 Chromosome child1 = new Chromosome();
@@ -79,7 +74,6 @@ public class GeneticAlgorithm
                 child2.X = (1 - alpha) * parents[i].X + alpha * parents[i + 1].X;
                 child2.Y = (1 - alpha) * parents[i].Y + alpha * parents[i + 1].Y;
 
-                // Recalculate fitness for offspring
                 child1.Fitness = EvaluateFitness(child1.X, child1.Y);
                 child2.Fitness = EvaluateFitness(child2.X, child2.Y);
 
@@ -88,7 +82,6 @@ public class GeneticAlgorithm
             }
             else
             {
-                // If crossover doesn't occur, just add parents to offspring
                 offspring.Add(parents[i]);
                 offspring.Add(parents[i + 1]);
             }

@@ -31,3 +31,4 @@ C:\Users\raylaw\Desktop\Code\Csh\genetic-algorithm-form\bin\Debug\net6.0-windows
 C:\Users\raylaw\Desktop\Code\Csh\genetic-algorithm-form\bin\Debug\net6.0-windows\runtimes\win-arm64\native\libSkiaSharp.dll
 C:\Users\raylaw\Desktop\Code\Csh\genetic-algorithm-form\bin\Debug\net6.0-windows\runtimes\win-x64\native\libSkiaSharp.dll
 C:\Users\raylaw\Desktop\Code\Csh\genetic-algorithm-form\bin\Debug\net6.0-windows\runtimes\win-x86\native\libSkiaSharp.dll
+C:\Users\raylaw\Desktop\Code\Csh\genetic-algorithm-form\obj\Debug\net6.0-windows\genetic_algorithm_form.Properties.Resources.resources
