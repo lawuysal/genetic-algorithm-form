@@ -14,6 +14,7 @@ namespace genetic_algorithm_form
             formsPlot1.Plot.YLabel("Fitness");
             formsPlot1.Plot.Title("Convergence Graph");
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+
         }
 
         void start()
@@ -38,16 +39,16 @@ namespace genetic_algorithm_form
 
             for (int generation = 0; generation < maxGenerations; generation++)
             {
-                // Algoritma
+                // Algorithm
                 GeneticAlgorithm.CalculateFitness(population);
                 List<Chromosome> elites = GeneticAlgorithm.ApplyElitism(population, eliteCount);
                 List<Chromosome> parents = GeneticAlgorithm.Selection(population);
-                List<Chromosome> offspring = GeneticAlgorithm.Crossover(parents, crossoverProbability);
-                GeneticAlgorithm.Mutation(offspring, mutationProbability, minX, maxX);
-                population = elites.Concat(offspring).ToList();
+                List<Chromosome> children = GeneticAlgorithm.Crossover(parents, crossoverProbability);
+                GeneticAlgorithm.Mutation(children, mutationProbability, minX, maxX);
+                population = elites.Concat(children).ToList();
 
 
-                // Grafik
+                // Graph
                 Chromosome currentBestSolution = population.OrderBy(c => c.Fitness).First();
                 if (currentBestSolution.Fitness < best.Fitness)
                 {
@@ -65,8 +66,10 @@ namespace genetic_algorithm_form
                     formsPlot1.Plot.Add.Signal(dataY);
                 else
                     formsPlot1.Plot.Add.Scatter(dataX, dataY);
+
                 if (iterationsCount % Convert.ToInt32(graphOptimizeCombo.Text) == 0)
                     formsPlot1.Refresh();
+
                 if (isBreak)
                     break;
 
